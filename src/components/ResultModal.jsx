@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
 function ResultModal({ result, targetTime, modal }) {
-  useEffect(() => {
-    modal.current.showModal();
-  }, []);
+  // useEffect(()=>{
+  //   modal.current.open()
+  // },[])
   return (
     <dialog className="result-modal" ref={modal}>
       <h2>You {result}</h2>

@@ -12,6 +12,7 @@ function TimerChallenge({ title, targetTime }) {
     setTimerStarted(true);
     timer.current = setTimeout(() => {
       setTimerExpired(true);
+      modal.current.showModal();
     }, targetTime * 1000);
   }
 
@@ -21,9 +22,8 @@ function TimerChallenge({ title, targetTime }) {
 
   return (
     <>
-      {timerExpired ? (
-        <ResultModal targetTime={targetTime} result={"lost"} modal={modal} />
-      ) : undefined}
+      <ResultModal targetTime={targetTime} result={"lost"} modal={modal} />
+
       <section className="challenge">
         <h2>{title}</h2>
         {timerExpired && <p>You Lost !</p>}

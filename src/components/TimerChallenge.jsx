@@ -5,35 +5,50 @@ function TimerChallenge({ title, targetTime }) {
   const timer = useRef();
   const modal = useRef();
 
-  const [timerExpired, setTimerExpired] = useState(false);
-  const [timerStarted, setTimerStarted] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(targetTime * 1000);
+
+  const timeIsActive = timeRemaining > 0 && timeRemaining < targetTime * 1000;
+
+  if (timeRemaining <= 0) {
+    clearInterval(timer.current);
+    modal.current.show();
+  }
+
+  function handleReset(e) {
+    e.preventDefault();
+    setTimeRemaining(targetTime * 1000);
+  }
 
   function handleStart() {
-    setTimerStarted(true);
-    timer.current = setTimeout(() => {
-      setTimerExpired(true);
-      modal.current.show();
-    }, targetTime * 1000);
+    timer.current = setInterval(() => {
+      setTimeRemaining((pervTime) => pervTime - 10);
+    }, 10);
   }
 
   function handleStop() {
-    clearTimeout(timer.current);
+    modal.current.show();
+    clearInterval(timer.current);
   }
 
   return (
     <>
-      <ResultModal targetTime={targetTime} result={"lost"} modal={modal} />
+      <ResultModal
+        targetTime={targetTime}
+        modal={modal}
+        remainingTime={timeRemaining}
+        handleReset={handleReset}
+      />
 
       <section className="challenge">
         <h2>{title}</h2>
-        {timerExpired && <p>You Lost !</p>}
+
         <p className="challenge-time">
           {targetTime} Second{targetTime > 1 ? "s" : ""}
         </p>
-        <button onClick={timerStarted ? handleStop : handleStart}>
-          {timerStarted ? "Stop" : "Start"} Challenge
+        <button onClick={timeIsActive ? handleStop : handleStart}>
+          {timeIsActive ? "Stop" : "Start"} Challenge
         </button>
-        <p> {timerStarted ? "Time is running..." : "Timer inactive"} </p>
+        <p> {timeIsActive ? "Time is running..." : "Timer inactive"} </p>
       </section>
     </>
   );

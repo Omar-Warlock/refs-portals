@@ -12,6 +12,9 @@ export default function Player() {
     setEnteredPlayerName(inputRef.current.value);
     inputRef.current.value = "";
   }
+
+  // When Ref changes the component function does not re rendered ,
+  // the state cause the component function to re execute or rerendered
   return (
     <section id="player">
       <h2>

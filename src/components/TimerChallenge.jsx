@@ -1,15 +1,22 @@
-import { useState } from "react";
-
+import { useRef, useState } from "react";
+//let timer; // global var cause overwritten pointers
 function TimerChallenge({ title, targetTime }) {
+  const timer = useRef();
+
   const [timerExpired, setTimerExpired] = useState(false);
   const [timerStarted, setTimerStarted] = useState(false);
 
   function handleStart() {
     setTimerStarted(true);
-    setTimeout(() => {
+    timer.current = setTimeout(() => {
       setTimerExpired(true);
     }, targetTime * 1000);
   }
+
+  function handleStop() {
+    clearTimeout(timer.current);
+  }
+
   return (
     <section className="challenge">
       <h2>{title}</h2>
@@ -17,7 +24,7 @@ function TimerChallenge({ title, targetTime }) {
       <p className="challenge-time">
         {targetTime} Second{targetTime > 1 ? "s" : ""}
       </p>
-      <button onClick={handleStart}>
+      <button onClick={timerStarted ? handleStop : handleStart}>
         {timerStarted ? "Stop" : "Start"} Challenge
       </button>
       <p> {timerStarted ? "Time is running..." : "Timer inactive"} </p>

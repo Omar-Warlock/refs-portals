@@ -1,11 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useImperativeHandle, useRef } from "react";
 
 function ResultModal({ result, targetTime, modal }) {
   // useEffect(()=>{
   //   modal.current.open()
   // },[])
+  const dialog = useRef();
+
+  useImperativeHandle(modal, () => {
+    return {
+      show: function () {
+        dialog.current.showModal();
+      },
+    };
+  });
+
   return (
-    <dialog className="result-modal" ref={modal}>
+    <dialog className="result-modal" ref={dialog}>
       <h2>You {result}</h2>
       <p>
         The target time was <strong>{targetTime} seconds.</strong>

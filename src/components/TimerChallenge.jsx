@@ -12,7 +12,7 @@ function TimerChallenge({ title, targetTime }) {
     setTimerStarted(true);
     timer.current = setTimeout(() => {
       setTimerExpired(true);
-      modal.current.showModal();
+      modal.current.show();
     }, targetTime * 1000);
   }
 

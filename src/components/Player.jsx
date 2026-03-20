@@ -7,10 +7,11 @@ export default function Player() {
   //   setEnteredPlayerName(e.target.value);
   // }
   // const [submitted, setSubmitted] = useState(false);
+  const inputRef = useRef();
   function handleClick() {
     setEnteredPlayerName(inputRef.current.value);
+    inputRef.current.value = "";
   }
-  const inputRef = useRef();
   return (
     <section id="player">
       <h2>

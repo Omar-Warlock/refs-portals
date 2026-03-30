@@ -28,8 +28,14 @@ function ResultModal({ targetTime, modal, remainingTime, handleReset }) {
       <p>
         You Stopped the timer with <strong>{formatTime} seconds left.</strong>
       </p>
-      <form action="dialog">
-        <button onSubmit={handleReset}>Close</button>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleReset(e);
+          dialog.current.close();
+        }}
+      >
+        <button>Close</button>
       </form>
     </dialog>,
     document.querySelector("#modal"),
